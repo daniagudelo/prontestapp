@@ -3,18 +3,23 @@ class VideosController < ApplicationController
       
     #Show all videos action
     def index
-        @videos = Video.all
+        @video = Video.all
     end
      
     #New action for posting a video
     def new
-      @videos = Video.new
+        #if current_user.try(:admin?) <- replace with this after everything is done
+        if current_user
+            @video = Video.new
+        else
+            redirect_to root_path
+        end
      end
       
      #Create action saves the video into the database
     def create
         @video = Video.new
-        if @video.save(post_params)
+        if @video.save(video_params)
             flash[:notice] = "Successfully posted video!"
             redirect_to video_path(@video)
         else
