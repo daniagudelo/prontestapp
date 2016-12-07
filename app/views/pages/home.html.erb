@@ -2,6 +2,8 @@
     <h1>Name of the website</h1>
     <p>THIS WOULD BE A SLIDING CAROUSSEL WITH THE LATEST VIDEOS</p>
     <% if current_user %>
+    <% elsif current_admin %>
+        <h1>ADMIN!!!</h1>
     <% else %>
         <%= link_to 'Sign Up', new_user_registration_path %>
     <% end %>
