@@ -8,8 +8,7 @@ class VideosController < ApplicationController
      
     #New action for posting a video
     def new
-        #if current_user.try(:admin?) <- replace with this after everything is done
-        if current_user
+        if current_user.try(:admin?)
             @video = Video.new
         else
             redirect_to root_path
@@ -30,13 +29,17 @@ class VideosController < ApplicationController
     
     #Edit action retrieves the video and renders the edit page
     def edit
+        if current_user.try(:admin?)
+        else
+            redirect_to root_path
+        end
     end
     
     #Update action updates the video with the new information
     def update
         if @video.update_attributes(video_params)
             flash[:notice] = "Successfully updated video!"
-            redirect_to video_path(@videos)
+            redirect_to video_path(@video)
         else
             flash[:alert] = "Error updating video!"
             render :edit
